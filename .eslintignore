@@ -1,0 +1,5 @@
+**/src/**/*.css
+**/*.html
+**/src/**/*.json
+**/src/**/*.svg
+**/src/**/*.xml
