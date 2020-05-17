@@ -4,8 +4,6 @@ logs
 *-debug.log
 *-error.log
 
-# Standard dist folder
-/dist
 
 # Tooling files
 node_modules
