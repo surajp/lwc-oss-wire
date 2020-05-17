@@ -8,3 +8,5 @@ This app merely accepts a subreddit name from the user and fetches the first 10 
 * npm install
 * npx lwc-services build
 * npx http-server dist
+
+See the app in action [here](https://surajp.github.io/lwc-oss-wire/dist)
