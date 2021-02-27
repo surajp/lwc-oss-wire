@@ -3,16 +3,32 @@ import getSubRedditDetails from "data/subRedditDataProvider";
 
 export default class Reddit extends LightningElement {
   subRedditName = "worldnews";
+  subRedditData = [];
   updateSubReddit(event) {
     this.subRedditName = event.target.value;
   }
 
   get hasData() {
-    return this.subRedditData && this.subRedditData.data;
+    return this.subRedditData;
+  }
+
+  decodeHtml(html) {
+    let span = document.createElement("span");
+    span.innerHTML = html;
+    return span.innerText;
   }
 
   @wire(getSubRedditDetails, { subRedditName: "$subRedditName" })
-  subRedditData;
+  wiredSubredditData({ error, data }) {
+    if (!error && data) {
+      this.subRedditData = data.map((post) => ({
+        ...post,
+        title: this.decodeHtml(post.title),
+      }));
+    } else if (error) {
+      console.error(error);
+    }
+  }
 
   /**
   connectedCallback() {

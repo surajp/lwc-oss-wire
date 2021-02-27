@@ -1,8 +1,10 @@
 <template>
-  Subreddit Name: <input onchange={updateSubReddit} value={subRedditName}/>
+  Subreddit Name: <input onchange={updateSubReddit} value={subRedditName} />
   <template if:true={hasData}>
-    <template for:each={subRedditData.data} for:item="post">
-      <a target="_blank" key={post.url} href={post.url}><h2 key={post.title}>{post.title}</h2></a>
+    <template for:each={subRedditData} for:item="post">
+      <a target="_blank" key={post.url} href={post.url}
+        ><h2 key={post.title}>{post.title}</h2></a
+      >
     </template>
   </template>
 </template>
