@@ -137,7 +137,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/";
+/******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
 /******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
@@ -169,10 +169,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ui_reddit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ui/reddit */ "./src/modules/ui/reddit/reddit.js");
 
 
-
-const element = Object(lwc__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ui-app", { is: ui_reddit__WEBPACK_IMPORTED_MODULE_1__["default"] });
+const element = Object(lwc__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ui-app", {
+  is: ui_reddit__WEBPACK_IMPORTED_MODULE_1__["default"]
+});
 document.querySelector("#main").appendChild(element);
-
 
 /***/ }),
 
@@ -199,36 +199,59 @@ const getSubReddit = async subreddit => {
 
 /***/ }),
 
-/***/ "./src/modules/data/subRedditDataProvider/subRedditDataProvider.js":
-/*!*************************************************************************!*\
-  !*** ./src/modules/data/subRedditDataProvider/subRedditDataProvider.js ***!
-  \*************************************************************************/
+/***/ "./src/modules/data/subRedditWire/subRedditWire.js":
+/*!*********************************************************!*\
+  !*** ./src/modules/data/subRedditWire/subRedditWire.js ***!
+  \*********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getSubRedditDetails; });
-/* harmony import */ var _lwc_wire_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @lwc/wire-service */ "../../.npm/lib/node_modules/lwc-services/node_modules/@lwc/wire-service/dist/wire-service.cjs.js");
-/* harmony import */ var _lwc_wire_service__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_lwc_wire_service__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var data_reddit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! data/reddit */ "./src/modules/data/reddit/reddit.js");
+/* harmony import */ var lwc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lwc */ "../../.npm/lib/node_modules/lwc-services/node_modules/@lwc/engine/dist/engine.cjs.js");
+/* harmony import */ var lwc__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lwc__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _subRedditWire_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./subRedditWire.html */ "../../.npm/lib/node_modules/lwc-services/node_modules/lwc-webpack-plugin/dist/mocks/empty-style.js");
+/* harmony import */ var _subRedditWire_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_subRedditWire_html__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var data_reddit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! data/reddit */ "./src/modules/data/reddit/reddit.js");
 
 
-function getSubRedditDetails(config) {
-  return Object(data_reddit__WEBPACK_IMPORTED_MODULE_1__["getSubReddit"])(config.subRedditName);
+
+
+class SubRedditWire {
+  constructor(dataCallback) {
+    this.dataCallback = void 0;
+    this.connected = false;
+    this.dataCallback = dataCallback;
+  }
+
+  connect() {
+    this.connected = true;
+    this.dataCallback({});
+  }
+
+  disconnect() {
+    this.connected = false;
+  }
+
+  update(config) {
+    if (this.connected) {
+      Object(data_reddit__WEBPACK_IMPORTED_MODULE_2__["getSubReddit"])(config && config.subRedditName).then(resp => this.dataCallback({
+        data: resp
+      })).catch(err => this.dataCallback({
+        error: err
+      }));
+    }
+  }
+
 }
-Object(_lwc_wire_service__WEBPACK_IMPORTED_MODULE_0__["register"])(getSubRedditDetails, eventTarget => {
-  eventTarget.addEventListener("config", config => {
-    Object(data_reddit__WEBPACK_IMPORTED_MODULE_1__["getSubReddit"])(config && config.subRedditName).then(resp => eventTarget.dispatchEvent(new _lwc_wire_service__WEBPACK_IMPORTED_MODULE_0__["ValueChangedEvent"]({
-      data: resp
-    })));
-  });
-  eventTarget.addEventListener("connect", config => {
-    Object(data_reddit__WEBPACK_IMPORTED_MODULE_1__["getSubReddit"])(config && config.subRedditName).then(resp => eventTarget.dispatchEvent(new _lwc_wire_service__WEBPACK_IMPORTED_MODULE_0__["ValueChangedEvent"]({
-      data: resp
-    })));
-  });
+
+Object(lwc__WEBPACK_IMPORTED_MODULE_0__["registerDecorators"])(SubRedditWire, {
+  fields: ["dataCallback", "connected"]
 });
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(lwc__WEBPACK_IMPORTED_MODULE_0__["registerComponent"])(SubRedditWire, {
+  tmpl: _subRedditWire_html__WEBPACK_IMPORTED_MODULE_1___default.a
+}));
 
 /***/ }),
 
@@ -241,7 +264,7 @@ Object(_lwc_wire_service__WEBPACK_IMPORTED_MODULE_0__["register"])(getSubRedditD
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _reddit_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./reddit.css */ "../../.npm/lib/node_modules/lwc-services/lib/utils/webpack/mocks/empty-style.js");
+/* harmony import */ var _reddit_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./reddit.css */ "../../.npm/lib/node_modules/lwc-services/node_modules/lwc-webpack-plugin/dist/mocks/empty-style.js");
 /* harmony import */ var _reddit_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_reddit_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var lwc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lwc */ "../../.npm/lib/node_modules/lwc-services/node_modules/@lwc/engine/dist/engine.cjs.js");
 /* harmony import */ var lwc__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lwc__WEBPACK_IMPORTED_MODULE_1__);
@@ -270,7 +293,7 @@ function tmpl($api, $cmp, $slotset, $ctx) {
     on: {
       "change": _m0 || ($ctx._m0 = api_bind($cmp.updateSubReddit))
     }
-  }, []), $cmp.hasData ? api_iterator($cmp.subRedditData.data, function (post) {
+  }, []), $cmp.hasData ? api_iterator($cmp.subRedditData, function (post) {
     return api_element("a", {
       attrs: {
         "target": "_blank",
@@ -290,8 +313,8 @@ if (_reddit_css__WEBPACK_IMPORTED_MODULE_0___default.a) {
   tmpl.stylesheets.push.apply(tmpl.stylesheets, _reddit_css__WEBPACK_IMPORTED_MODULE_0___default.a)
 }
 tmpl.stylesheetTokens = {
-  hostAttribute: "ui-reddit-_reddit-host",
-  shadowAttribute: "ui-reddit-_reddit"
+  hostAttribute: "my-ui-reddit_reddit-host",
+  shadowAttribute: "my-ui-reddit_reddit"
 };
 
 
@@ -309,18 +332,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lwc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lwc */ "../../.npm/lib/node_modules/lwc-services/node_modules/@lwc/engine/dist/engine.cjs.js");
 /* harmony import */ var lwc__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lwc__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _reddit_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reddit.html */ "./src/modules/ui/reddit/reddit.html");
-/* harmony import */ var data_subRedditDataProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! data/subRedditDataProvider */ "./src/modules/data/subRedditDataProvider/subRedditDataProvider.js");
+/* harmony import */ var data_subRedditWire__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! data/subRedditWire */ "./src/modules/data/subRedditWire/subRedditWire.js");
 
 
 
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
 
 
 
 class Reddit extends lwc__WEBPACK_IMPORTED_MODULE_0__["LightningElement"] {
   constructor(...args) {
     super(...args);
-    this.subRedditName = "worldnews";
-    this.subRedditData = void 0;
+    this.subRedditName = 'worldnews';
+    this.subRedditData = [];
   }
 
   updateSubReddit(event) {
@@ -328,13 +399,32 @@ class Reddit extends lwc__WEBPACK_IMPORTED_MODULE_0__["LightningElement"] {
   }
 
   get hasData() {
-    return this.subRedditData && this.subRedditData.data;
+    return this.subRedditData;
+  }
+
+  decodeHtml(html) {
+    let span = document.createElement('span');
+    span.innerHTML = html;
+    return span.innerText;
+  }
+
+  wiredSubredditData({
+    error,
+    data
+  }) {
+    if (!error && data) {
+      this.subRedditData = data.map(post => _objectSpread(_objectSpread({}, post), {}, {
+        title: this.decodeHtml(post.title)
+      }));
+    } else if (error) {
+      console.error(error);
+    }
   }
   /**
   connectedCallback() {
-    getSubRedditDetails({ subRedditName: this.subRedditName }).then(
-      (resp) => (this.subRedditData = resp)
-    );
+  getSubRedditDetails({ subRedditName: this.subRedditName }).then(
+    (resp) => (this.subRedditData = resp)
+  );
   }
   **/
 
@@ -343,13 +433,10 @@ class Reddit extends lwc__WEBPACK_IMPORTED_MODULE_0__["LightningElement"] {
 
 Object(lwc__WEBPACK_IMPORTED_MODULE_0__["registerDecorators"])(Reddit, {
   wire: {
-    subRedditData: {
-      adapter: data_subRedditDataProvider__WEBPACK_IMPORTED_MODULE_2__["default"],
-      params: {
-        subRedditName: "subRedditName"
-      },
-      static: {},
-      hasParams: true,
+    wiredSubredditData: {
+      adapter: data_subRedditWire__WEBPACK_IMPORTED_MODULE_2__["default"],
+      dynamic: ["subRedditName"],
+      method: 1,
       config: function ($cmp) {
         return {
           subRedditName: $cmp.subRedditName
@@ -357,8 +444,8 @@ Object(lwc__WEBPACK_IMPORTED_MODULE_0__["registerDecorators"])(Reddit, {
       }
     }
   },
-  fields: ["subRedditName"]
-})
+  fields: ["subRedditName", "subRedditData"]
+});
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(lwc__WEBPACK_IMPORTED_MODULE_0__["registerComponent"])(Reddit, {
   tmpl: _reddit_html__WEBPACK_IMPORTED_MODULE_1__["default"]
